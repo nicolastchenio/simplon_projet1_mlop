@@ -69,25 +69,25 @@ jobs:
 
           # Générer le SVG du badge
           cat > badges/coverage.svg <<EOF
-<svg xmlns="http://www.w3.org/2000/svg" width="110" height="20">
-  <linearGradient id="b" x2="0" y2="100%">
-    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-    <stop offset="1" stop-opacity=".1"/>
-  </linearGradient>
-  <mask id="a">
-    <rect width="110" height="20" rx="3" fill="#fff"/>
-  </mask>
-  <g mask="url(#a)">
-    <rect width="60" height="20" fill="#555"/>
-    <rect x="60" width="50" height="20" fill="$COLOR"/>
-    <rect width="110" height="20" fill="url(#b)"/>
-  </g>
-  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
-    <text x="30" y="14">coverage</text>
-    <text x="85" y="14">$PERCENT%</text>
-  </g>
-</svg>
-EOF
+            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="20">
+              <linearGradient id="b" x2="0" y2="100%">
+                <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+                <stop offset="1" stop-opacity=".1"/>
+              </linearGradient>
+              <mask id="a">
+                <rect width="110" height="20" rx="3" fill="#fff"/>
+              </mask>
+              <g mask="url(#a)">
+                <rect width="60" height="20" fill="#555"/>
+                <rect x="60" width="50" height="20" fill="$COLOR"/>
+                <rect width="110" height="20" fill="url(#b)"/>
+              </g>
+              <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
+                <text x="30" y="14">coverage</text>
+                <text x="85" y="14">$PERCENT%</text>
+              </g>
+            </svg>
+            EOF
 
       # 8️⃣ Commit et push du badge sur la branche actuelle
       - name: Commit coverage badge
