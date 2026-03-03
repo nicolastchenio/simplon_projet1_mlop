@@ -48,23 +48,54 @@ jobs:
           grep -r --exclude-dir=.git -n -E '([A-Za-z0-9_]{20,})' .
 
       # 6️⃣ Générer le badge de couverture dynamique
-      - name: Generate dynamic coverage badge
+       # -------------------------------
+      # Coverage Badge
+      # -------------------------------
+      - name: Generate coverage badge SVG
         run: |
-          # Installer xmlstarlet pour parser XML
-          sudo apt-get update && sudo apt-get install -y xmlstarlet
+          # Installer xmlstarlet
+          sudo apt-get update && sudo apt-get install -y xmlstarlet bc
 
-          # Générer le rapport XML
-          uv run pytest --cov=app --cov-report=xml
+          # Lire la couverture depuis coverage.xml
+          TOTAL=$(xmlstarlet sel -t -v "/coverage/@line-rate" coverage.xml)
+          PERCENT=$(echo "$TOTAL*100" | bc | cut -d'.' -f1)
 
-          # Lire le coverage total depuis coverage.xml
-          TOTAL_COVERAGE=$(xmlstarlet sel -t -v "/coverage/@line-rate" coverage.xml)
-          PERCENT=$(echo "$TOTAL_COVERAGE*100" | bc | cut -d'.' -f1)
+          # Couleur selon coverage
+          if [ "$PERCENT" -ge 90 ]; then COLOR="brightgreen"
+          elif [ "$PERCENT" -ge 75 ]; then COLOR="yellowgreen"
+          elif [ "$PERCENT" -ge 50 ]; then COLOR="yellow"
+          else COLOR="red"
+          fi
 
-          # Créer un fichier JSON pour Shields.io
-          echo "{ \"schemaVersion\": 1, \"label\": \"coverage\", \"message\": \"$PERCENT%\", \"color\": \"green\" }" > coverage.json
+          # Générer le SVG simple
+          cat > coverage.svg <<EOF
+            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="20">
+              <linearGradient id="b" x2="0" y2="100%">
+                <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+                <stop offset="1" stop-opacity=".1"/>
+              </linearGradient>
+              <mask id="a">
+                <rect width="110" height="20" rx="3" fill="#fff"/>
+              </mask>
+              <g mask="url(#a)">
+                <rect width="60" height="20" fill="#555"/>
+                <rect x="60" width="50" height="20" fill="$COLOR"/>
+                <rect width="110" height="20" fill="url(#b)"/>
+              </g>
+              <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
+                <text x="30" y="14">coverage</text>
+                <text x="85" y="14">$PERCENT%</text>
+              </g>
+            </svg>
+            EOF
 
-      - name: Upload coverage badge JSON
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-badge
-          path: coverage.json
+      - name: Commit coverage badge
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout main
+          mkdir -p badges
+          mv coverage.svg badges/coverage.svg
+          git add badges/coverage.svg
+          git commit -m "Update coverage badge"
+          git push origin main
