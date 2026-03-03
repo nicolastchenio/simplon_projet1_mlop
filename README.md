@@ -1,7 +1,7 @@
 # Simplon Toolbox – Projet 1 MLOP
 
 ![CI Status](https://github.com/nicolastchenio/simplon_projet1_mlop/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://img.shields.io/badge/coverage-0%25-lightgrey)
+![CI Status](https://github.com/nicolastchenio/simplon_projet1_mlop/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ---
@@ -96,6 +96,3 @@ Pour contribuer :
 ## 7. Licence
 
 Ce projet est sous licence MIT.
-
-<!-- ceci est un commentaire pour tester le workflow -->
-<!-- ceci est deuxieme commentaire pour tester une deuxieme fois le workflow -->
