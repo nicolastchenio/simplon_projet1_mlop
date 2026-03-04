@@ -39,7 +39,19 @@ jobs:
 
       # 4️⃣ Tests unitaires avec pytest et couverture
       - name: Run tests with pytest
-        run: uv run pytest --cov=app --cov-report=term-missing
+        run: |
+          uv run pytest
+          uv run coverage xml
+          uv run genbadge coverage -i coverage.xml -o coverage.svg
+
+      - name: 📤 Sauvegarde du badge (Artefact)
+        # NOUVEAU : On utilise la version de Python dans le nom pour éviter les conflits (ex: coverage-badge-3.12)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badge-${{ matrix.python-version }}
+          path: coverage.svg
+          include-hidden-files: true
+          if-no-files-found: error
 
       # 5️⃣ Audit de sécurité pour détecter les secrets
       - name: Secret scanning
