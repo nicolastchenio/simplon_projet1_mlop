@@ -1,8 +1,9 @@
 # Simplon Toolbox – Projet 1 MLOP
 
 ![CI Status](https://github.com/nicolastchenio/simplon_projet1_mlop/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://img.shields.io/badge/https%3A%2F%2Fgist.githubusercontent.com%2Fnicolastchenio%2Ffeb812d57e72aa9f86cb3bdbff5e2c1d%2Fraw%2Fd8772f9c47c50c19883f607f8cf8ee35e486de1b%2Fcoverage_mlops-projet1.json)
+![Coverage](https://img.shields.io/badge/coverage-0%25-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-blue)
+
 
 ---
 
